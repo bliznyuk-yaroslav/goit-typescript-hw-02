@@ -7,7 +7,13 @@ import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "../ImageModal/ImageModal";
 import css from "./App.module.css";
 import { fetchImages } from "../showImage";
-import { Image } from "./App.types";
+import { Image } from "./App.types"
+
+interface ImageDataPromise{
+  query:Image[];
+  page:number;
+
+}
 
 function App(): JSX.Element {
   const [images, setImages] = useState<Image[]>([]);
@@ -34,9 +40,9 @@ function App(): JSX.Element {
       try {
         setError(false);
         setIsLoader(true);
-        const data = await fetchImages(query, page);
+        const data: ImageDataPromise = await fetchImages(query, page);
         setImages((prevImages) => {
-          return [...prevImages, ...data];
+          return [...prevImages, ...data.query];
         });
       } catch (error) {
         setError(true);
